@@ -1,0 +1,78 @@
+@mixin transition($value) {
+  -moz-transition: $value;
+  -webkit-transition: $value;
+  transition: $value;
+}
+@mixin shadow($value) {
+  -moz-box-shadow: $value;
+  -webkit-box-shadow: $value;
+  box-shadow: $value;
+}
+
+html { 
+  font-size: 62.5%;
+  background:#333 url(/images/darkdenim3.png);
+}
+body {
+  padding:40px;
+  font: {
+    family:'PT Sans', sans-serif;
+    size:1.6rem;
+  }
+  color:#fff;
+  line-height:1.8rem;
+  line-height:18px;
+}
+h1 {
+  font: {
+    family:Helvetica, Verdana, sans-serif;
+    size:6.0rem;
+    size:60px;
+  }
+  text: {
+    transform:uppercase;
+  }
+  margin: {
+    bottom:1.0rem;
+    bottom:10px;
+  }
+  img {
+    vertical-align:middle;
+    margin-top:-14px;
+  }
+}
+#projects {
+  position:relative;
+
+  &.selected {
+
+    .tile {
+      position:absolute;
+      left:0;
+      top:0;
+    }
+  }
+}
+.container {
+  width:950px;
+  margin:0 auto;
+}
+.tile {
+  @include transition(all 0.3s ease-in);
+  @include shadow(0px 8px 4px -4px #333);
+  position:absolute;
+  width:280px;
+  height:200px;
+  background:#fff;
+  margin:10px 20px 10px 0;
+  opacity:0;
+  left:0;
+  color:#333;
+  &.visible {
+    opacity:1;
+  }
+  &.topZ { 
+    background:red;
+    z-index:9999;
+  }
+}
