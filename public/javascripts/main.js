@@ -19,6 +19,7 @@ require.config({
     underscore: 'libs/underscore-min',
     backbone: 'libs/backbone-min',
     hbsruntime: 'libs/handlebars.runtime',
+    showdown: 'libs/showdown',
     hbstemplates: 'templates/templates'
   }
 });
@@ -29,6 +30,7 @@ require(
     , 'jquery'
     , 'backbone'
     , 'parse'
+    , 'showdown'
     , 'hbstemplates'
     , 'collections/project'
    ], function(Views, $) {

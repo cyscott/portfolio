@@ -1,12 +1,39 @@
 define(
   ['models/project',
    'collections/project',
+   'showdown',
    'backbone',
    'hbsruntime',
    'hbstemplates'
    ],
-
  function(Models, Collections) {
+
+
+   var ProjectSummaryView = Backbone.View.extend({
+
+    tagName: 'div',
+
+    template: Handlebars.templates['project/summary'],
+
+    render: function() {
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    }
+
+   });
+
+   var ProjectDetailsView = Backbone.View.extend({
+
+    tagName: 'div',
+
+    template: Handlebars.templates['project/details'],
+
+    render: function() {
+      this.$el.html(this.template(this.model.toJSON()));
+      return this;
+    }
+
+   });
 
    var ProjectTileView = Backbone.View.extend({
 
@@ -42,6 +69,8 @@ define(
 
      var css = {};
      if(this.model.get('active')) {
+
+       // A project is activated, so move to 0 position
        var random = Math.floor(Math.random()*11) - 5;
        css = {
           'left':'0',
@@ -51,8 +80,10 @@ define(
           '-moz-transform':'rotate('+random+'deg)'
        };
        this.$el.css(css);
+
      } else {
-       var left = this.$el.data('left');
+
+       // Project inactivated, move back to original position
        css = {
          'left':this.$el.data('left'),
          'top':this.$el.data('top'),
@@ -71,11 +102,10 @@ define(
 
     initialize: function() {
 
-      console.log('Init main app');
-
       Collections.ProjectCollection.bind('reset', this.addAll, this);
       Collections.ProjectCollection.bind('selected', this.tileSelected, this);
 
+      // Grab all elements from Parse to kick this off
       var query = Parse.Query(Models.ProjectModel);
       Collections.query = query;
       Collections.ProjectCollection.fetch();
@@ -91,39 +121,76 @@ define(
         , topOffset = 220
         , leftOffset = 300;
 
+      var converter = new Showdown.converter();
+
       Collections.ProjectCollection.each(function(e) {
+
+        // Convert Markdown to Html
+        var text = e.get('details');
+        var html = converter.makeHtml(text);
+        e.set({ details: html });
+
+        // Build the tiles
         var view = new ProjectTileView({ model:e });
         var tile = view.render().el;
-        $(_this.el).append(tile);
+        _this.$('#tiles').append(tile);
 
-        // calculate absolute positions
+        // Calculate absolute positions
+        // Doing this so the CSS transition works properly
         var col = index % 3;
         var row = Math.floor(index / 3);
         var left = col * leftOffset;
         var top = row * topOffset;
 
+        // slow it down a bit with a timeout for animation
         setTimeout(function() {
-          $(tile).addClass('visible').css('left', left).css('top', top).data('left', left).data('top', top);
+          $(tile).addClass('visible').css({ 'left': left, 'top': top })
+            .data('left', left).data('top', top);
         }, 10);
+
         index++;
       });
     },
 
     tileSelected: function(e) {
-      var active = Collections.ProjectCollection.any(function(project) {
-        return project.get('selected');
-      });
-      console.log('any active? ' + active);
+
+      var selectedProject
+        , active
+        , summaryView
+        , detailsView;
+
+      active = Collections.ProjectCollection.hasSelected();//typeof selectedProject !== 'undefined' && selectedProject !== null;
       Collections.ProjectCollection.each(function(project) {
         var selected = e.get('name') === project.get('name') && e.get('selected');
         project.set({'selected':selected, 'active': active});
       });
+
+
+      // Render details
+      if(active) {
+
+        selectedProject = Collections.ProjectCollection.getSelected();
+
+        // Populate summary
+        summaryView = new ProjectSummaryView({ model:selectedProject });
+        this.$('#summary').html(summaryView.render().el);
+
+        // Populate details
+        detailsView = new ProjectDetailsView({ model:selectedProject });
+        this.$('#details').html(detailsView.render().el);
+      }
+
+
     },
 
     toggle: function(e) {
-      $(this.el).toggleClass('selected');
+      $(this.el).toggleClass('selected', Collections.ProjectCollection.hasSelected());
     }
 
+  });
+
+  Handlebars.registerHelper('toClassName', function(value) {
+    return value.toLowerCase().replace(/ /g, '-');
   });
 
 
