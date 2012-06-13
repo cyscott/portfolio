@@ -123,6 +123,8 @@ define(
 
       var converter = new Showdown.converter();
 
+      _this.$('#tiles').empty();
+
       Collections.ProjectCollection.each(function(e) {
 
         // Convert Markdown to Html

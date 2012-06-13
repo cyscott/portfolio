@@ -60,6 +60,8 @@ code {
     top: 0;
     left: 0;
     width: 100%; }
+    #projects #tiles em {
+      color: #ccc; }
   #projects #details, #projects #summary {
     -moz-transition: all 0.3s ease-in;
     -webkit-transition: all 0.3s ease-in;
