@@ -9,6 +9,8 @@
   box-shadow: $value;
 }
 
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
 html { 
   font-size: 62.5%;
   background:#333 url(/images/darkdenim3.png);
@@ -47,6 +49,10 @@ h2 {
     family:Helvetica, Verdana, sans-serif;
     size:4.0rem;
     size:40px;
+  }
+  line: {
+    height:3.6rem;
+    height:36px;
   }
 }
 
@@ -152,5 +158,31 @@ code {
   &.topZ { 
     border-color:#bd2702;
     z-index:9999;
+  }
+  > div {
+    width:100%;
+    height:100%;
+    -webkit-transform-style: preserve-3d;
+    transform-style:preserve-3d;
+    -moz-transform-style:preserve-3d;
+    background: {
+      color:transparent;
+      size:100%;
+    }
+    &.my-portfolio {
+      background-image:url(/images/my-portfolio.png);
+    }
+    &.leafly-menu-facebook-and-site-embed {
+      background-image:url(/images/leafly-menu.png);
+    }
+    &.leafly-responsive-redesign {
+      background-image:url(/images/leafly-responsive-redesign.png);
+    }
+    &.united-brew-facebook-integration {
+      background-image:url(/images/ub.png);
+    }
+    &.kelley-blue-book-mobile{
+      background-image:url(/images/kbb-mobile.png);
+    }
   }
 }

@@ -25,7 +25,7 @@ require.config({
 });
 
 require(
-   [  //'recipe_data'
+   [
       'views/project'
     , 'jquery'
     , 'backbone'

@@ -116,6 +116,7 @@ define(
     },
 
     addAll: function() {
+      console.log('add all');
       var _this = this
         , index = 0
         , topOffset = 220
