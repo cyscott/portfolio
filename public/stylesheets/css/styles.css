@@ -8,7 +8,7 @@ html {
   background: #333333 url(/images/darkdenim3.png); }
 
 body {
-  padding: 40px;
+  padding: 40px 0;
   font-family: 'PT Sans', sans-serif;
   font-size: 1.6rem;
   color: #fff;
@@ -122,8 +122,8 @@ code {
     border-color: #bd2702;
     z-index: 9999; }
   .tile > div {
-    width: 100%;
-    height: 100%;
+    width: 260px;
+    height: 180px;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
