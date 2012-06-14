@@ -8,6 +8,8 @@ html {
   background: #333333 url(/images/darkdenim3.png); }
 
 body {
+  width: 950px 0;
+  margin: 0 auto;
   padding: 40px 0;
   font-family: 'PT Sans', sans-serif;
   font-size: 1.6rem;
@@ -95,7 +97,7 @@ code {
     top: 0; }
 
 .container {
-  width: 950px;
+  width: 940px;
   margin: 0 auto; }
 
 .tile {
